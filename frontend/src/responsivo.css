@@ -1,0 +1,273 @@
+/* ===== Ajustes de responsividade do sistema (painel) ===== */
+/* Importado em App.js, depois do index.css. */
+
+/* Barra superior com botão de menu: só aparece em telas menores */
+.mobile-bar,
+.sidebar-overlay {
+  display: none;
+}
+
+.mobile-bar {
+  position: sticky;
+  top: 0;
+  z-index: 25;
+  align-items: center;
+  gap: 12px;
+  height: 58px;
+  padding: 0 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.mobile-bar img {
+  height: 40px;
+  width: auto;
+}
+
+.menu-toggle {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--plum-dark);
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.menu-toggle:focus-visible {
+  outline: 3px solid var(--clay);
+  outline-offset: 2px;
+}
+
+/* ---------- Tablet e celular (menu vira gaveta) ---------- */
+@media (max-width: 960px) {
+  .mobile-bar {
+    display: flex;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    box-shadow: none;
+    overflow-y: auto;
+  }
+
+  .sidebar.sidebar-aberta {
+    transform: translateX(0);
+    box-shadow: 0 0 60px rgba(39, 26, 35, 0.3);
+  }
+
+  .sidebar-overlay.sidebar-overlay-ativo {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 29;
+    background: rgba(39, 31, 36, 0.5);
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  .page {
+    padding: 24px 20px 44px;
+  }
+
+  /* formulário + lista lado a lado passam a ficar um sobre o outro */
+  [style*="1.2fr 2fr"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ---------- Celular ---------- */
+@media (max-width: 640px) {
+  .page {
+    padding: 20px 16px 40px;
+  }
+
+  .welcome,
+  .orders-heading {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .welcome h1,
+  .orders-heading h1 {
+    font-size: 27px;
+  }
+
+  .welcome .button-primary,
+  .orders-heading .button-primary {
+    width: 100%;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  .stats-grid,
+  .order-metrics {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  /* grades montadas com estilo direto nos componentes */
+  [style*="minmax(300px"],
+  [style*="minmax(320px"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* barra de busca/filtros */
+  .orders-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px;
+  }
+
+  .orders-toolbar-search {
+    width: 100%;
+  }
+
+  /* tabelas rolam para o lado em vez de estourar a tela */
+  .orders-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .orders-table {
+    min-width: 760px;
+  }
+
+  /* linhas de lista (insumos, clientes, financeiro) quebram em duas linhas */
+  [style*="justify-content: space-between"] {
+    flex-wrap: wrap;
+  }
+
+  /* pop-ups ocupam a tela toda */
+  .modal-layer {
+    padding: 0;
+    align-items: end;
+  }
+
+  .modal {
+    width: 100%;
+    max-height: 94vh;
+    border-radius: 18px 18px 0 0;
+    padding: 20px 16px;
+  }
+
+  .modal [style*="display: flex"],
+  .form-row {
+    flex-wrap: wrap;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .form-row > * {
+    width: 100%;
+  }
+
+  .modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .modal-actions button {
+    width: 100%;
+  }
+
+  /* campos com tamanho mínimo confortável para o toque */
+  .form-input,
+  select.form-input {
+    min-height: 44px;
+    font-size: 16px; /* evita o zoom automático do iPhone */
+  }
+}
+
+@media (max-width: 400px) {
+  .stats-grid,
+  .order-metrics {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Telas largas demais: mantém o conteúdo legível */
+@media (min-width: 1700px) {
+  .page {
+    max-width: 1400px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar {
+    transition: none;
+  }
+}
+
+/* Marca do menu lateral: logo centralizado, sem quebrar em nenhuma largura */
+.sidebar .brand {
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0 0 24px;
+  text-align: center;
+}
+
+.sidebar .brand img {
+  display: block;
+  width: 150px;
+  max-width: 100%;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.sidebar .brand small {
+  margin-top: 0;
+  white-space: nowrap;
+}
+
+/* Barra do topo no celular */
+.mobile-bar img {
+  display: block;
+  flex-shrink: 0;
+  max-width: 60%;
+  object-fit: contain;
+}
+
+/* Cartões de resumo: em larguras médias ficam 2 por linha (evita sobrar um cartão sozinho na última linha) */
+@media (min-width: 641px) and (max-width: 1280px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Menu lateral: se a janela for baixa, o menu rola e o botão "Sair" continua alcançável */
+.sidebar {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.sidebar .sidebar-bottom {
+  margin-top: auto;
+}
+
+/* janelas baixas: libera espaço escondendo a dica e diminuindo o logo */
+@media (max-height: 820px) {
+  .sidebar .tip-card {
+    display: none;
+  }
+
+  .sidebar .brand img {
+    width: 120px;
+  }
+
+  .sidebar .brand {
+    padding-bottom: 16px;
+  }
+}
